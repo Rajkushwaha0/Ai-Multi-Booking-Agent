@@ -60,6 +60,36 @@ class User(BaseModel):
 
 
 # ------------------------------------------------------------------------------
+# UserResponse — safe public shape returned by the API.
+# Sensitive fields (password_hash, refresh_token_hash) are never exposed.
+# ------------------------------------------------------------------------------
+
+class UserResponse(BaseModel):
+    user_id:             str
+    full_name:           str
+    email:               EmailStr
+    mobile:              MobileInfo | None = None
+    currency:            CurrencyInfo | None = None
+    address:             AddressInfo | None = None
+    is_profile_complete: bool
+    created_at:          datetime
+    updated_at:          datetime
+
+
+# ------------------------------------------------------------------------------
+# UserUpdateRequest — all fields optional.
+# Only fields explicitly sent by the client will be written to MongoDB.
+# Pydantic's model_dump(exclude_unset=True) ensures untouched fields are ignored.
+# ------------------------------------------------------------------------------
+
+class UserUpdateRequest(BaseModel):
+    full_name: str | None           = None
+    mobile:    MobileInfo | None    = None
+    currency:  CurrencyInfo | None  = None
+    address:   AddressInfo | None   = None
+
+
+# ------------------------------------------------------------------------------
 # UserCreate — typed payload for inserting a new user document.
 # Profile fields are optional here; is_profile_complete starts as False.
 # ------------------------------------------------------------------------------
