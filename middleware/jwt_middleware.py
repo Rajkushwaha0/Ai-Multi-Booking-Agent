@@ -16,8 +16,9 @@ PUBLIC_ROUTES: set[str] = {
     "/docs",
     "/redoc",
     "/openapi.json",
+    "/api/v1/auth/signup",
     "/api/v1/auth/login",
-    "/api/v1/auth/register",
+    "/api/v1/auth/refresh",   # no access token when refreshing — user may be expired
     "/webhooks/stripe",
 }
 
