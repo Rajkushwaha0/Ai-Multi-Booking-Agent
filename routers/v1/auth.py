@@ -207,7 +207,7 @@ async def logout(
     user_id is sourced from request.state.user, set by JWTMiddleware.
     Any cached refresh token is rejected on next use.
     """
-    user_id = request.state.user["sub"]
+    user_id = request.state.user_id
 
     await user_repo.revoke_refresh_token(db, user_id)
 

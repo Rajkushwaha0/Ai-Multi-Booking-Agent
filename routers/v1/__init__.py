@@ -12,7 +12,10 @@ from fastapi import APIRouter
 v1_router = APIRouter()
 
 from routers.v1 import auth
-v1_router.include_router(auth.router, prefix="/auth", tags=["Auth"])
+v1_router.include_router(auth.router, prefix="/auth",  tags=["Auth"])
+
+from routers.v1 import user
+v1_router.include_router(user.router, prefix="/users", tags=["Users"])
 
 # Uncomment each line as the corresponding router module is implemented:
 # from routers.v1 import chat, movie, cab, doctor, restaurant, payment
