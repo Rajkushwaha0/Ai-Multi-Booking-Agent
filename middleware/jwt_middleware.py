@@ -19,9 +19,13 @@ PUBLIC_ROUTES: set[str] = {
     "/redoc",
     "/openapi.json",
     "/api/v1/auth/signup",
+    "/api/v1/auth/verify-otp",
+    "/api/v1/auth/resend-otp",
     "/api/v1/auth/login",
-    "/api/v1/auth/refresh",   # user may not have a valid access token when refreshing
-    "/webhooks/stripe",       # Stripe signs this payload independently
+    "/api/v1/auth/refresh",        # user may not have a valid access token when refreshing
+    "/api/v1/auth/forgot-password",
+    "/api/v1/auth/reset-password",
+    "/webhooks/stripe",            # Stripe signs this payload independently
 }
 
 

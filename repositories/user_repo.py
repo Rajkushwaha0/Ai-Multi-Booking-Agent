@@ -117,6 +117,36 @@ async def update_user(
     return updated_user
 
 
+async def verify_user(db: AsyncIOMotorDatabase, user_id: str) -> None:
+    """
+    Marks a user's email as verified.
+    Called once, after a successful OTP check at signup.
+    """
+    await db[_COLLECTION].update_one(
+        {"user_id": user_id},
+        {"$set": {
+            "is_verified": True,
+            "updated_at":  datetime.now(timezone.utc),
+        }},
+    )
+    app_logger.info("user_repo.verify_user — user_id=%s marked verified", user_id)
+
+
+async def update_password(db: AsyncIOMotorDatabase, user_id: str, new_hash: str) -> None:
+    """
+    Replaces the stored password hash for a user.
+    Called at the end of the password-reset flow, after the reset token is validated.
+    """
+    await db[_COLLECTION].update_one(
+        {"user_id": user_id},
+        {"$set": {
+            "password_hash": new_hash,
+            "updated_at":    datetime.now(timezone.utc),
+        }},
+    )
+    app_logger.info("user_repo.update_password — password updated for user_id=%s", user_id)
+
+
 async def revoke_refresh_token(db: AsyncIOMotorDatabase, user_id: str) -> None:
     """
     Clears the stored refresh token hash for a user.
