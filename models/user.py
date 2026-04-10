@@ -55,6 +55,9 @@ class User(BaseModel):
     # Profile completion gate
     is_profile_complete: bool = False
 
+    # Email verification gate — False until OTP is confirmed at signup
+    is_verified:         bool = False
+
     created_at:          datetime
     updated_at:          datetime
 
@@ -72,6 +75,7 @@ class UserResponse(BaseModel):
     currency:            CurrencyInfo | None = None
     address:             AddressInfo | None = None
     is_profile_complete: bool
+    is_verified:         bool
     created_at:          datetime
     updated_at:          datetime
 
@@ -99,13 +103,14 @@ class UserCreate(BaseModel):
     full_name:           str
     email:               EmailStr
     password_hash:       str
-    refresh_token_hash:  str
+    refresh_token_hash:  str | None = None   # None at signup; set after OTP verification
 
     mobile:              MobileInfo | None = None
     currency:            CurrencyInfo | None = None
     address:             AddressInfo | None = None
 
     is_profile_complete: bool = False
+    is_verified:         bool = False
 
     created_at:          datetime
     updated_at:          datetime

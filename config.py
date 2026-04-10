@@ -56,6 +56,16 @@ class TwilioSettings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
+class SmtpSettings(BaseSettings):
+    host:         str = Field("smtp.gmail.com", alias="SMTP_HOST")          # replace with your actual value
+    port:         int = Field(587,              alias="SMTP_PORT")           # 587 = STARTTLS, 465 = SSL
+    user:         str = Field("",              alias="SMTP_USER")           # replace with your actual value
+    password:     str = Field("",              alias="SMTP_PASSWORD")       # replace with your actual value
+    from_address: str = Field("",              alias="SMTP_FROM")           # replace with your actual value
+
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+
 class JWTSettings(BaseSettings):
     secret_key: str = Field("", alias="JWT_SECRET_KEY")                     # replace with your actual value
     algorithm: str = "HS256"
@@ -81,6 +91,7 @@ class Settings:
         self.mem0   = Mem0Settings()
         self.stripe = StripeSettings()
         self.twilio = TwilioSettings()
+        self.smtp   = SmtpSettings()
         self.jwt    = JWTSettings()
 
 
